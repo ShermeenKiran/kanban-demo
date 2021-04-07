@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/*New class use-reducers*/
+.App-logo-paused{
+  animation-play-state: paused;
+}
+
+.App-header {
+  background-color: #282c34;
+  color: white;
+}
+
+.App-link {
+  color:white;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.create {
+  color: white;
+  background-color: black;
+  font-weight: 300;
+  margin: 40px;
+  float: right;
+  height: 35px;
+  cursor: pointer;
+}
+
