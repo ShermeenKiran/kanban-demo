@@ -14,10 +14,11 @@ function Dashboard(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [save , setSave] = useState(null)
-  function handleShow() {
-    console.log("state of show before",show)
+  function handleShow() {    
     setShow(true);
-    console.log("state of show after",show)
+    // here we need to connect store and access array in store and update it
+    
+
   }
 
   function handleSave(){
@@ -26,6 +27,13 @@ function Dashboard(props) {
   function onClick(){
     return props.rotating ?props.stopAction():props.startAction()
   }
+
+  // function handleCreateTask(){
+  //   props.createTask({name , status})
+
+  // }
+  // onChange={handleTitleChnage}
+
   return (
     <div className="App">
       <header className="App-header">
@@ -40,7 +48,7 @@ function Dashboard(props) {
             <Modal.Title>Task</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <textarea title="Title" placeholder='Title'></textarea>
+            <textarea title="Title" placeholder='Title' ></textarea>
             <textarea title="Description" placeholder='Description' ></textarea>
             <StatusDropdown  
                 title="Select Status"
@@ -68,5 +76,6 @@ const mapStateToProps = state =>({
 const mapDispatchToProps = dispatch => ({
   startAction: () => dispatch(startAction),
   stopAction: () => dispatch(stopAction)
+  // createTask: () => dispatch(createTask)
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -2,7 +2,6 @@
 
 * {
   box-sizing: border-box;
-  margin: 7px;
 }
 body {
   display: flex;
