@@ -18,17 +18,13 @@ function Dashboard(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [data, setData]  = useState({})
-
   function handleShow() {    
     setShow(true);
   }
 
   function handleSave(){
     //here i will update status of the task 
-    console.log("title" , title)
-    console.log("status", selectedOption)
-    setData({id:11,title:title,status:selectedOption})
+    props.createTask({id:11,title:title,status:selectedOption})
     handleClose();    
   }
   function onClick(){
@@ -74,6 +70,7 @@ const mapStateToProps = state =>({
 const mapDispatchToProps = dispatch  => ({
    startAction: () => dispatch(startAction()),
    stopAction: () => dispatch(stopAction()),
-   createTaskAction: () => dispatch(createTaskAction({id:11,title:title,status:status}))
+   createTask: (data) => dispatch(
+     createTaskAction(data))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
