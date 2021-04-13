@@ -1,4 +1,6 @@
-export const startAction = {
-  type: "rotate",
-  payload: true
+export const startAction =()=> {
+  return({
+    type: "rotate",
+    payload: true
+  })
 };

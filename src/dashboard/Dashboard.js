@@ -13,37 +13,27 @@ import 'react-dropdown/style.css';
 
 function Dashboard(props) {
   const options = ["todo", "wip", "done"];
-  const defaultOption = options[0];
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const [save , setSave] = useState(null)
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [data, setData]  = useState({})
 
   function handleShow() {    
     setShow(true);
-    // here we need to connect store and access array in store and update it
-    
-
   }
 
   function handleSave(){
     //here i will update status of the task 
     console.log("title" , title)
     console.log("status", selectedOption)
-    return props.createTaskAction({id:11,title:title,status:selectedOption})
-    handleClose();
+    setData({id:11,title:title,status:selectedOption})
+    handleClose();    
   }
   function onClick(){
     return props.rotating ?props.stopAction():props.startAction()
   }
-
-  // function handleCreateTask(){
-  //   props.createTask({name , status})
-
-  // }
-  // onChange={handleTitleChnage}
 
   return (
     <div className="App">
@@ -62,11 +52,6 @@ function Dashboard(props) {
             <textarea title="Title" placeholder='Title' onChange={ e =>{setTitle(e.target.value)}}></textarea>
             <textarea title="Description" placeholder='Description' onChange={ e =>{setDescription(e.target.value)}}></textarea>
             <Dropdown options={options} onChange={option =>{ setSelectedOption(option.value)}} value={selectedOption} placeholder="Select an option" />
-            {/* <StatusDropdown  
-                title="Select Status"
-                save={Option}
-                onChange={ e =>{setOption(e.target.value)}}
-              /> */}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -86,9 +71,9 @@ const mapStateToProps = state =>({
   ...state
 });
 
-const mapDispatchToProps = dispatch => ({
-  startAction: () => dispatch(startAction),
-  stopAction: () => dispatch(stopAction),
-  createTaskAction: () => dispatch(createTaskAction)
+const mapDispatchToProps = dispatch  => ({
+   startAction: () => dispatch(startAction()),
+   stopAction: () => dispatch(stopAction()),
+   createTaskAction: () => dispatch(createTaskAction({id:11,title:title,status:status}))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

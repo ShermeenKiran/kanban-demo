@@ -1,9 +1,6 @@
-import { propTypes } from "react-bootstrap/esm/Image";
-
-export const createTaskAction =(data)=>{
-    console.log("data",data)
-   return({
+export const createTaskAction=(data) => {
+    return({
     type: "create-task",
-    payload: [{id:data.id,title:data.title,status:data.status}]
-   })
-  };
+    payload: {id:data.id,title:data.title,status:data.status}
+    })
+ };

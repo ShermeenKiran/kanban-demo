@@ -27,13 +27,15 @@ export default function RotateReducers (state=initialState, action) {
         };
         case "create-task":
             {
-                console.log(action)
+                console.log("action" , action)
                 let task = {
                     id:action.payload.id,
                     title: action.payload.title, 
                     status: action.payload.status
                     }
+                    console.log("task",task)
                     let updatedTaskList = state.taskList
+                    console.log("updated task listbefore" , updatedTaskList)
                     updatedTaskList.push(task)
                     console.log("updated task list", updatedTaskList)
                     return {...state, taskList: updatedTaskList}
