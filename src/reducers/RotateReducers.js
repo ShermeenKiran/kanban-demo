@@ -22,21 +22,24 @@ export default function RotateReducers (state=initialState, action) {
     switch (action.type) {
         case "rotate":
         return {
+            ...state,
             rotating: action.payload
         };
         case "create-task":
             {
+                console.log(action)
                 let task = {
-                    name: action.payload.name, 
+                    id:action.payload.id,
+                    title: action.payload.title, 
                     status: action.payload.status
                     }
                     let updatedTaskList = state.taskList
                     updatedTaskList.push(task)
+                    console.log("updated task list", updatedTaskList)
                     return {...state, taskList: updatedTaskList}
                     //using hooks in reducers
             }
         default:
-            console.log("default state" , state)
-        return state;
+                    return state;
     }
 };
