@@ -1,65 +1,93 @@
-import logo from '../logo.svg';
 import './Dashboard.css';
-import {connect} from 'react-redux';
-import {startAction} from '../reducers/actions/StartAction';
-import {stopAction}  from '../reducers/actions/StopAction';
-import { useState } from "react";
-import React from 'react'; 
-import { Modal , Button } from 'react-bootstrap';
+import React, { useState } from 'react'; 
+import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+
+import { changeStatusAction } from '../actions/changeStatusAction';
+import { changeTitleAction } from '../actions/changeTitleAction';
+import { addAction } from '../actions/addAction';
 import TaskBoard from '../dashboard/TaskBoard';
-import {createTaskAction} from '../reducers/actions/CreateTaskAction';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import AddModal from '../common/AddModal';
+import EditModal from '../common/EditModal';
 
 function Dashboard(props) {
-  const options = ["todo", "wip", "done"];
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  function handleShow() {    
-    setShow(true);
+  // boolean to control "edit task" modal
+  const [editModalShow, setEditeditModalShow] = useState(false);
+  // boolean to control "add task" modal
+  const [addModalShow, setAddModalShow]       = useState(false);
+  // string to set to value of task being edited.
+  const [editValue, setEditValue] = useState("");
+  // object of task being edited.
+  const [editItem, setEditItem] = useState({ 
+    _id: null,
+    title: null,
+    status: null,  
+  });
+
+  // when edit button has been clicked
+  function onEdit(item) {
+    // set values and open modal.
+    setEditItem(item);
+    setEditValue(item.title);
+    setEditeditModalShow(true);
+  }
+  function onMove(id, status) {
+    props.changeStatusAction(id, status);
   }
 
-  function handleSave(){
-    //here i will update status of the task 
-    props.createTask({id:11,title:title,status:selectedOption})
-    handleClose();    
+  // when the task has been updated by clicking "save" in edit modal.
+  function onUpdate(editItem, editValue) {
+    // clear edit values/items.
+    setEditeditModalShow(false);
+    setEditValue("");
+    setEditItem({ 
+      _id: null,
+      title: null,
+      status: null,  
+    });
+
+    props.changeTitleAction(editItem._id, editValue);
   }
-  function onClick(){
-    return props.rotating ?props.stopAction():props.startAction()
+
+  function handleChange(event) {
+    setEditValue(event.target.value)
+  }
+
+  function addTask(title, status) {
+    props.addAction(title, status);
   }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className={"App-logo" + (props.rotating ? "" : "App-logo-paused")} alt="logo" onClick={onClick} />
-      </header>   
-      <Button variant="primary"className='create' onClick={handleShow}>
-              Create Task
+      <EditModal 
+        show={editModalShow}
+        setShow={setEditeditModalShow}
+        editItem={editItem}
+        editValue={editValue}
+        handleChange={handleChange}
+        onUpdate={onUpdate}
+      />
+
+      <AddModal 
+        show={addModalShow}
+        setShow={setAddModalShow} 
+        addTask={addTask}
+      />
+
+      <h1 style={{ marginBottom: '20px' }}> Kanban Board </h1>
+      <Button 
+        variant="success" 
+        onClick={() => setAddModalShow(true)}
+        style={{ marginBottom: '20px' }}
+      >
+        Add
       </Button>
-      <TaskBoard/>
-      <Modal show={show} onHide={handleClose} animation={false}>
-          <Modal.Header >
-            <Modal.Title>Task</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <textarea title="Title" placeholder='Title' onChange={ e =>{setTitle(e.target.value)}}></textarea>
-            <textarea title="Description" placeholder='Description' onChange={ e =>{setDescription(e.target.value)}}></textarea>
-            <Dropdown options={options} onChange={option =>{ setSelectedOption(option.value)}} value={selectedOption} placeholder="Select an option" />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleSave}>
-              Save Changes
-            </Button>
-          </Modal.Footer >
-        </Modal>
+
+      <TaskBoard
+        onEdit={onEdit}
+        onMove={onMove}
+      />
     </div>
-    
   );
 }
 
@@ -68,9 +96,8 @@ const mapStateToProps = state =>({
 });
 
 const mapDispatchToProps = dispatch  => ({
-   startAction: () => dispatch(startAction()),
-   stopAction: () => dispatch(stopAction()),
-   createTask: (data) => dispatch(
-     createTaskAction(data))
+  changeStatusAction: (id, status) => dispatch(changeStatusAction(id, status)),
+  changeTitleAction: (id, title) => dispatch(changeTitleAction(id, title)),
+  addAction: (title, status) => dispatch(addAction(title, status)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

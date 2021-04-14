@@ -1,8 +1,8 @@
 import { createStore } from "redux";
-import RotateReducers from "./RotateReducers";
+import TaskReducer from "../reducers/TaskReducer";
 
 function configureStore(state) {
-  return createStore(RotateReducers,state);
+  return createStore(TaskReducer,state);
 }
 //change name to generic rootreducer
 export default configureStore;

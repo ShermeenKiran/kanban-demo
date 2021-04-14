@@ -1,21 +1,24 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, {  useRef } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import update from "immutability-helper";
+import { Button } from 'react-bootstrap';
 import { connect } from "react-redux";
+import { DONE_STATUS, INPROGRESS_STATUS, TODO_STATUS } from "../constants/constants";
+import { pascalCase } from "pascal-case";
 
 
 
-const channels = ["todo", "wip", "done"];
+const channels = [TODO_STATUS, INPROGRESS_STATUS, DONE_STATUS];
 const labelsMap = {
-  todo: "To Do",
-  wip: "In Progress",
-  done: "Done"
+  todo: pascalCase(TODO_STATUS),
+  inprogress: pascalCase(INPROGRESS_STATUS),
+  done: pascalCase(DONE_STATUS)
 };
 
 const classes = {
   board: {
     display: "flex",
+    justifyContent: "center",
     margin: "0 auto",
     width: "90vw",
     fontFamily: 'Arial, "Helvetica Neue", sans-serif'
@@ -34,51 +37,48 @@ const classes = {
     backgroundColor: "#C6D8AF"
   },
   item: {
+    display: 'flex',
+    flexDirection: 'column',
     padding: 10,
     margin: 10,
     fontSize: "0.8em",
     cursor: "pointer",
     backgroundColor: "white"
+  },
+  mb: {
+    marginBottom: '10px',
   }
 };
 
 const Kanban = (props) => {
-  const [tasks, setTaskStatus] = useState(props.tasksList);
-  useEffect(()=>{
-    console.log("tasks" , props)
-  },[])
-  const changeTaskStatus = useCallback(
-    (id, status) => {
-      let task = tasks.find(task => task._id === id);
-      const taskIndex = tasks.indexOf(task);
-      task = { ...task, status };
-      let newTasks = update(tasks, {
-        [taskIndex]: { $set: task }
-      });
-      setTaskStatus(newTasks);
-    },
-    [tasks]
-  );
-
   return (
     <main>
-      <header> Kanban Board </header>
       <DndProvider backend={HTML5Backend}>
         <section style={classes.board}>
           {channels.map(channel => (
             <KanbanColumn
               key={channel}
               status={channel}
-              changeTaskStatus={changeTaskStatus}
+              changeTaskStatus={(id, status) => props.onMove(id, status)}
             >
               <div style={classes.column}>
                 <div style={classes.columnHead}>{labelsMap[channel]}</div>
                 <div>
-                  {tasks
+                  {props.tasksList
                     .filter(item => item.status === channel)
                     .map(item => (
                       <KanbanItem key={item._id} id={item._id}>
-                        <div style={classes.item}>{item.title}</div>
+                        <div style={classes.item}>
+                          <h4>{item.title}</h4>
+                        
+                          <Button 
+                            variant="primary"
+                            style={classes.mb}
+                            onClick={() => props.onEdit(item)}
+                          >
+                            Update
+                          </Button>
+                        </div>
                       </KanbanItem>
                     ))}
                 </div>
@@ -98,6 +98,7 @@ export default connect(mapStateToProps ,{})(Kanban);
 
 const KanbanColumn = ({ status, changeTaskStatus, children }) => {
   const ref = useRef(null);
+  console.log("status" , status)
   const [, drop] = useDrop({
     accept: "card",
     drop(item) {
