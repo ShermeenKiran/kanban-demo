@@ -1,6 +1,8 @@
+import { ADD } from "../constants/constants";
+
 export const addAction = (title, status) => {
   return {
-    type: "ADD",
+    type: ADD,
     payload: { title, status },
   };
 };

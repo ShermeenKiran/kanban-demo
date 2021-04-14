@@ -1,6 +1,8 @@
+import { CHANGE_TITLE } from "../constants/constants";
+
 export const changeTitleAction = (id, title) => {
   return{
-    type: "CHANGE-TITLE",
+    type: CHANGE_TITLE,
     payload: { id, title },
   };
 };

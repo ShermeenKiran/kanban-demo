@@ -1,4 +1,4 @@
-import { ADD_CASE,CHANGE_STATUS_CASE,CHANGE_TITLE_CASE,DONE_STATUS,
+import { ADD,CHANGE_STATUS,CHANGE_TITLE,DONE_STATUS,
      INPROGRESS_STATUS, TODO_STATUS } from "../constants/constants";
 
 const initialState = {
@@ -12,7 +12,7 @@ const initialState = {
 }
 export default function TaskReducer (state=initialState, action) {
   switch (action.type) {
-    case ADD_CASE:
+    case ADD:
       return {
         taskList: [
           ...state.taskList,
@@ -24,7 +24,7 @@ export default function TaskReducer (state=initialState, action) {
           }
         ]
       };
-    case CHANGE_STATUS_CASE :
+    case CHANGE_STATUS :
       return {
         taskList: state.taskList.map((item) => {
           if (item._id === action.payload.id) {
@@ -37,7 +37,7 @@ export default function TaskReducer (state=initialState, action) {
           }
         }),
       };
-    case CHANGE_TITLE_CASE:
+    case CHANGE_TITLE:
       return {
         taskList: state.taskList.map(item => {
           if (item._id === action.payload.id) {
