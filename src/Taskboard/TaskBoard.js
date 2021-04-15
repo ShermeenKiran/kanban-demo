@@ -34,7 +34,7 @@ const Kanban = (props) => {
                     .filter(item => item.status === channel)
                     .map(item => (
                       <KanbanItem key={item._id} id={item._id}>
-                        <div className={styles.item}>
+                        <div className={styles.ite}>
                           <h4>{item.title}</h4>
                         
                           <Button 
