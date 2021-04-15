@@ -6,9 +6,8 @@ import { connect } from 'react-redux';
 import { changeStatusAction } from '../actions/changeStatusAction';
 import { changeTitleAction } from '../actions/changeTitleAction';
 import { addAction } from '../actions/addAction';
-import TaskBoard from '../dashboard/TaskBoard';
-import AddModal from '../common/AddModal';
-import EditModal from '../common/EditModal';
+import TaskBoard from '../Taskboard/TaskBoard';
+import TaskModal from '../common/TaskModal';
 
 function Dashboard(props) {
   // boolean to control "edit task" modal
@@ -27,9 +26,13 @@ function Dashboard(props) {
   // when edit button has been clicked
   function onEdit(item) {
     // set values and open modal.
-    setEditItem(item);
-    setEditValue(item.title);
-    setEditeditModalShow(true);
+    if(item && item.title){
+      setEditItem(item);
+      setEditValue(item.title);
+      setAddModalShow(true);
+    }
+    else
+    setAddModalShow(true)
   }
   function onMove(id, status) {
     props.changeStatusAction(id, status);
@@ -59,18 +62,14 @@ function Dashboard(props) {
 
   return (
     <div className="App">
-      <EditModal 
-        show={editModalShow}
-        setShow={setEditeditModalShow}
+      {/*Model will be used for both add new task and update existing*/}
+      <TaskModal 
+        show={addModalShow?addModalShow:editModalShow}
+        setShow={setAddModalShow?setAddModalShow:setEditeditModalShow}
         editItem={editItem}
         editValue={editValue}
         handleChange={handleChange}
         onUpdate={onUpdate}
-      />
-
-      <AddModal 
-        show={addModalShow}
-        setShow={setAddModalShow} 
         addTask={addTask}
       />
 

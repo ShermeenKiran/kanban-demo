@@ -15,41 +15,6 @@ const labelsMap = {
   done: pascalCase(DONE_STATUS)
 };
 
-const classes = {
-  board: {
-    display: "flex",
-    justifyContent: "center",
-    margin: "0 auto",
-    width: "90vw",
-    fontFamily: 'Arial, "Helvetica Neue", sans-serif'
-  },
-  column: {
-    minWidth: 200,
-    width: "18vw",
-    height: "80vh",
-    margin: "0 auto",
-    backgroundColor: "#FCC8B2"
-  },
-  columnHead: {
-    textAlign: "center",
-    padding: 10,
-    fontSize: "1.2em",
-    backgroundColor: "#C6D8AF"
-  },
-  item: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 10,
-    margin: 10,
-    fontSize: "0.8em",
-    cursor: "pointer",
-    backgroundColor: "white"
-  },
-  mb: {
-    marginBottom: '10px',
-  }
-};
-
 const Kanban = (props) => {
   return (
     <main>
@@ -124,4 +89,39 @@ const KanbanItem = ({ id, children }) => {
       {children}
     </div>
   );
+};
+
+const classes = {
+  board: {
+    display: "flex",
+    justifyContent: "center",
+    margin: "0 auto",
+    width: "90vw",
+    fontFamily: 'Arial, "Helvetica Neue", sans-serif'
+  },
+  column: {
+    minWidth: 200,
+    width: "18vw",
+    height: "80vh",
+    margin: "0 auto",
+    backgroundColor: "#FCC8B2"
+  },
+  columnHead: {
+    textAlign: "center",
+    padding: 10,
+    fontSize: "1.2em",
+    backgroundColor: "#C6D8AF"
+  },
+  item: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 10,
+    margin: 10,
+    fontSize: "0.8em",
+    cursor: "pointer",
+    backgroundColor: "white"
+  },
+  mb: {
+    marginBottom: '10px',
+  }
 };
