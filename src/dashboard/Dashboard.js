@@ -26,6 +26,7 @@ function Dashboard(props) {
   // when edit button has been clicked
   function onEdit(item) {
     // set values and open modal.
+    console.log("item" , item)
     if(item && item.title){
       setEditItem(item);
       setEditValue(item.title);

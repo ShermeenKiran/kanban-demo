@@ -1,0 +1,32 @@
+.board{
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+      width: 90vw;
+      font-family: 'Arial, "Helvetica Neue", sans-serif';
+    }
+.column{
+      min-width: 100%;
+      width: 18vw;
+      height: 80vh;
+      margin: 0 auto;
+      background-color: #FCC8B2;
+    }
+.columnHead{
+      text-align: center;
+      padding: 20px;
+      font-size: 1.2em;
+      background-color: #C6D8AF;
+}
+.ite{
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      margin: 10px;
+      font-size: 0.8em;
+      cursor: pointer;
+      background-color: white;
+    }
+.mb{
+      margin-bottom: 10px;
+    }

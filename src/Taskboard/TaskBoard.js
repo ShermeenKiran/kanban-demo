@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { DONE_STATUS, INPROGRESS_STATUS, TODO_STATUS } from "../constants/constants";
 import { pascalCase } from "pascal-case";
+import styles from './Taskboard.module.css'
 
 
 
@@ -19,26 +20,26 @@ const Kanban = (props) => {
   return (
     <main>
       <DndProvider backend={HTML5Backend}>
-        <section style={classes.board}>
+        <section className={styles.board}>
           {channels.map(channel => (
             <KanbanColumn
               key={channel}
               status={channel}
               changeTaskStatus={(id, status) => props.onMove(id, status)}
             >
-              <div style={classes.column}>
-                <div style={classes.columnHead}>{labelsMap[channel]}</div>
+              <div className={styles.column}>
+                <div className={styles.columnHead}>{labelsMap[channel]}</div>
                 <div>
                   {props.tasksList
                     .filter(item => item.status === channel)
                     .map(item => (
                       <KanbanItem key={item._id} id={item._id}>
-                        <div style={classes.item}>
+                        <div className={styles.item}>
                           <h4>{item.title}</h4>
                         
                           <Button 
                             variant="primary"
-                            style={classes.mb}
+                            className={styles.mb}
                             onClick={() => props.onEdit(item)}
                           >
                             Update
@@ -89,39 +90,4 @@ const KanbanItem = ({ id, children }) => {
       {children}
     </div>
   );
-};
-
-const classes = {
-  board: {
-    display: "flex",
-    justifyContent: "center",
-    margin: "0 auto",
-    width: "90vw",
-    fontFamily: 'Arial, "Helvetica Neue", sans-serif'
-  },
-  column: {
-    minWidth: 200,
-    width: "18vw",
-    height: "80vh",
-    margin: "0 auto",
-    backgroundColor: "#FCC8B2"
-  },
-  columnHead: {
-    textAlign: "center",
-    padding: 10,
-    fontSize: "1.2em",
-    backgroundColor: "#C6D8AF"
-  },
-  item: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 10,
-    margin: 10,
-    fontSize: "0.8em",
-    cursor: "pointer",
-    backgroundColor: "white"
-  },
-  mb: {
-    marginBottom: '10px',
-  }
 };
